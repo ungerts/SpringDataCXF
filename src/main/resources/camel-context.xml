@@ -10,22 +10,17 @@
 
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
 
-    <bean id="dataSourcePsql" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/springtest" />
-        <property name="username" value="ungerts" />
-        <property name="password" value="" />
-    </bean>
+    <jdbc:embedded-database id="embedded-datasource" type="H2"/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
-        <property name="dataSource" ref="dataSourcePsql" />
+        <property name="dataSource" ref="embedded-datasource" />
         <property name="persistenceUnitName" value="userUnit" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
                 <property name="showSql" value="true"/>
                 <property name="generateDdl" value="true"/>
-                <property name="databasePlatform" value="org.eclipse.persistence.platform.database.PostgreSQLPlatform"/>
+                <property name="databasePlatform" value="org.eclipse.persistence.platform.database.H2Platform"/>
             </bean>
         </property>
         <property name="jpaDialect">
